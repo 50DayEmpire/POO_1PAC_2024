@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundo Fit</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="funciones.js"></script>
+</head>
+<body>
+    <div class="formulario" id="form">
+        <h1>Inicio de Sesión</h1>
+        <form>
+            <div class="usuario">
+                <input type="text" required onclick="ocultar('user')" id="usuario1">
+                <label id="user">Nombre de Usuario</label>
+            </div>
+            <div class="usuario">
+                <input type="password" required onclick="ocultar('pass')" id="contra1">
+                <label id="pass">Contraseña</label>
+            </div>
+            <input type="button" id="ingresar" value="Ingresar" onclick="crearCookie()">
+        </form>
+    </div>
+    <div class="tarjetas" id="tarjetas">
+        <h1>Información Personal</h1>
+        <form>
+            <div class="altura">
+                <label for="alt" class="etiqueta">Altura:</label>
+                <input type="text" id="alt" class="cajita">          
+            </div>
+            <div class="p">
+                <label for="peso" class="etiqueta">Peso:</label>
+                <input type="text" id="peso" class="cajita">
+            </div>
+            <div class="sesion">
+                <label for="tiempo" class="etiqueta">Minutos de Entrenamiento:</label>
+                <input type="text" id="tiempo" class="cajita">
+            </div>
+            
+        </form>
+        <h1>Historial</h1>
+        <form>
+            <div class="altura">
+                <label for="alt" class="etiqueta">Altura:</label>
+                <input type="text" id="alt2" class="cajita">          
+            </div>
+            <div class="p">
+                <label for="peso" class="etiqueta">Peso:</label>
+                <input type="text" id="peso2" class="cajita">
+            </div>
+            <div class="sesion">
+                <label for="tiempo" class="etiqueta">Minutos de Entrenamiento:</label>
+                <input type="text" id="tiempo2" class="cajita">
+            </div>
+            <input type="button" value="Guardar" id="guardar" onclick="sesion()">
+        </form>
+    
+</body>
+</html>
