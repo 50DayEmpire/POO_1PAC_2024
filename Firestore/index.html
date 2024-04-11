@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiendas la Excelencia</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="funciones.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <h1 id="titulo">Productos diponibles</h1>
+    <div class="area">
+        <div class="productos">
+            <div class="encabezados">
+                <span id="art">Articulo</span>
+                <span id="pre">Precio</span>
+            </div>
+            <div id="espacio"></div>
+        </div>
+        <div class="datos">
+            <div class="cajita">
+                <input type="text" id="uid" style="display: none;">
+                <label for="articulo">Articulo</label>
+                <input type="text" id="articulo">
+            </div>
+            <div class="cajita">
+                <label for="precio">Precio</label>
+                <input type="text" id="precio">
+            </div>
+            <div class="cajita" style="display: flex;">
+                <input type="button" value="Agregar" onclick="actualizar()">
+                <input type="button" value="Modificar" style="margin-left: 20px;" onclick="modificar()">
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
+<script>
+    function agregar(i,a,p) {
+        var espacio = document.getElementById("espacio");
+        var fila = document.createElement("div");
+        fila.id = i;
+        fila.className = "fila"
+        fila.addEventListener("click", function(event){
+            var id = this.id
+            document.getElementById("uid").value = id;
+            articulo = document.querySelector(`#${id} .art`).textContent
+            precio = document.querySelector(`#${id} .pre`).textContent
+            var art_text = document.getElementById("articulo")
+            var pre_text = document.getElementById("precio")
+            art_text.value = articulo
+            pre_text.value = precio
+        });
+        fila.style.display = "flex";
+        fila.style.paddingRight = "30px";
+        var divart = document.createElement("div");
+        var divpre = document.createElement("div");
+        var btn = document.createElement("input")
+        btn.setAttribute("type","button")
+        btn.setAttribute("value","-")
+        btn.className = "eliminar"
+        btn.onclick = function(){
+            i = this.parentNode.id
+            ref = coleccion.doc(i);
+            ref.delete()
+            var a = document.getElementById("articulo")
+            var p = document.getElementById("precio")
+            a.value = ""
+            p.value = ""
+            fil = document.getElementById(i)
+            fil.remove()
+        }
+        divart.className = "art";
+        divpre.className = "pre";
+        
+        fila.appendChild(divart);
+        fila.appendChild(divpre);
+        fila.appendChild(btn)
+        divart.textContent = a;
+        divpre.textContent = p;
+        espacio.appendChild(fila);
+    }
+
+    function modificar(){
+        var i = document.getElementById("uid").value
+        var a = document.getElementById("articulo").value
+        var p = document.getElementById("precio").value
+        ref = coleccion.doc(i)
+        ref.update({
+            articulo: a,
+            precio: p
+        })
+        art = document.querySelector(`#${i} .art`)
+        pre = document.querySelector(`#${i} .pre`)
+        art.textContent = a
+        pre.textContent = p
+    }
+
+
+    function valores() {
+        var a = document.getElementById("articulo")
+        var p = document.getElementById("precio")
+        var string = {
+            articulo: a.value,
+            precio: p.value
+        }
+        a.value = ""
+        p.value = ""
+        return string
+    }
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBfSgJ9_8mrTSY2senyPulMCbVoWmbhNTY",
+      authDomain: "prueba-11481.firebaseapp.com",
+      projectId: "prueba-11481",
+      storageBucket: "prueba-11481.appspot.com",
+      messagingSenderId: "877136890339",
+      appId: "1:877136890339:web:9c83798be4d7dc7b99b8d6",
+      measurementId: "G-EBP5HB26GB"
+    };
+  
+    firebase.initializeApp(firebaseConfig);
+    //inicializar conexion con base de datos
+    var db = firebase.firestore();
+
+    //consultas
+    var coleccion = db.collection("ventas")
+    coleccion.get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        agregar(doc.id,doc.data().articulo,doc.data().precio);
+        });
+    }).catch((error) => {
+        console.log("Error obteniendo los documentos: ", error);
+    });
+
+
+    function actualizar(){
+        string = valores()
+        coleccion.add(string).then((docRef) => {
+            console.log("Documento escrito con ID: ", docRef.id);
+            agregar(docRef.id,string.articulo,string.precio)
+        }).catch((error) => {
+            console.error("Error añadiendo el documento: ", error);
+        });
+    }
+
+  </script>
+  
+</body>
+</html>

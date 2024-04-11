@@ -7,30 +7,10 @@ function mostrar(n){
     elemento.style.display = "block"
 }
 
-function crearCookie(){
+function seguir(){
     ocultar('form');
     auto()
     mostrar('tarjetas')
-    const d = new Date();
-    d.setTime(d.getTime()+(10*1000));
-    let expira = d.toUTCString()
-    usuario = document.getElementById("usuario1").value
-    contra = document.getElementById("contra1").value
-    document.cookie = "usuario="+usuario+";expires="+expira+";path=/";
-    document.cookie = "contra="+contra+";expires="+expira+";path=/";
-}
-
-window.onload = function iniciar(){
-    const login = document.querySelector("#login");
-    login.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const user = document.querySelector("#usuario1").value;
-    const contra = document.querySelector("#contra1").value;
-
-    const credential = signInWithEmailAndPassword(auth,user,contra);
-    console.log(credential)
-    })
 }
 
 function auto(){

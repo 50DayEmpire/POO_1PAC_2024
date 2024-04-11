@@ -40,8 +40,11 @@
             const user = document.querySelector("#usuario1").value;
             const contra = document.querySelector("#contra1").value;
 
-            const credential = signInWithEmailAndPassword(auth,user,contra);
-            console.log(credential)
+            const credential = signInWithEmailAndPassword(auth,user,contra)
+            .then((userCredential) => {
+                console.log(userCredential)
+                seguir()
+            })
             })
         }
 
